@@ -1,0 +1,27 @@
+<StackPanel>
+    <!-- ToggleButton jako przycisk rozwijający -->
+    <ToggleButton x:Name="MultiSelectToggle"
+                  Width="250"
+                  Content="{Binding SelectedSummary}" />
+
+    <!-- Popup powiązany z ToggleButton -->
+    <Popup PlacementTarget="{Binding ElementName=MultiSelectToggle}"
+           Placement="Bottom"
+           IsOpen="{Binding IsChecked, ElementName=MultiSelectToggle}"
+           StaysOpen="False"
+           AllowsTransparency="True">
+        <Border Background="White" BorderBrush="Gray" BorderThickness="1">
+            <ScrollViewer MaxHeight="200">
+                <ListBox ItemsSource="{Binding AllTriggers}" SelectionMode="Multiple"
+                         behaviors:ListBoxSelectedItemsBehavior.SelectedItems="{Binding SelectedTriggers}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Name}"
+                                      IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Border>
+    </Popup>
+</StackPanel>
