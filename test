@@ -1,0 +1,35 @@
+Sub UstawDynamiczneListy()
+
+    Dim ws As Worksheet
+    Dim i As Long
+    Dim ostatniWiersz As Long
+    
+    ' Nazwa arkusza z formularzem
+    Set ws = ThisWorkbook.Sheets("Formularz")
+    
+    ' Ostatni wiersz (tu np. na 1000 wierszy)
+    ostatniWiersz = 1000
+    
+    Application.ScreenUpdating = False
+    
+    For i = 2 To ostatniWiersz
+        With ws.Range("B" & i).Validation
+            .Delete ' Usuń poprzednią poprawność danych
+            .Add Type:=xlValidateList, AlertStyle:=xlValidAlertStop, _
+                Formula1:="=DynamiczneElementy(A" & i & ")"
+            .IgnoreBlank = True
+            .InCellDropdown = True
+            .InputTitle = ""
+            .ErrorTitle = ""
+            .InputMessage = ""
+            .ErrorMessage = ""
+            .ShowInput = True
+            .ShowError = True
+        End With
+    Next i
+    
+    Application.ScreenUpdating = True
+    
+    MsgBox "Dynamiczne listy ustawione dla B2:B" & ostatniWiersz & "!", vbInformation
+
+End Sub
